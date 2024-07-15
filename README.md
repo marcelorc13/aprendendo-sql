@@ -1,5 +1,6 @@
 # Aprendendo SQL
 #### *com MySQL*
+Repositório inspirado nas aulas ["MySQL Full Course for free 🐬 (2023)"](https://www.youtube.com/watch?v=5OdVJbNCSso) e ["MySQL Node.js Express"](https://www.youtube.com/watch?v=Hej48pi_lOc) disponiveis gratuitamente no YouTube.
 ## Criando Banco de Dados
             
 ```sql
@@ -189,3 +190,56 @@ Volta no ultimo 'Savepoint' criado
 - `CURRENT_DATE()` possui o tipo `DATE` e mostra a Data atual
 - `CURRENT_TIME()` possui o tipo `TIME` e mostra a Hora atual
 - `NOW()` possui o tipo `DATETIME` e mostra a Data e a Hora atual
+
+## UNIQUE
+
+```sql
+CREATE TABLE usuarios (
+  id INT,
+  username VARCHAR(30) UNIQUE
+);
+```
+Usando `UNIQUE` não poderá haver outro 'username' igual a outro ja inserido
+```sql
+ALTER TABLE usuarios 
+ADD CONSTRAINT
+UNIQUE(username);
+```
+Caso a tabela ja tenha sido criada, seria inserido desse modo a restrição `UNIQUE`
+
+## NOT NULL
+
+```sql
+CREATE TABLE usuarios (
+  id INT,
+  username VARCHAR(30),
+  senha VARHCAR(20) NOT NULL
+);
+```
+Usando `NOT NULL` o valor não poderá ser = `null`
+```sql
+ALTER TABLE usuarios 
+MODIFY senha VARCHAR(20) NOT NULL;
+```
+Caso a tabela ja tenha sido criada, seria inserido desse modo a restrição `NOT NULL`
+
+## CHECK
+
+```sql
+CREATE TABLE usuarios (
+  id INT,
+  username VARCHAR(30),
+  senha VARHCAR(20),
+  idade INT,
+  CONSTRAINT checar_idade CHECK(idade >= 18)
+);
+```
+Usando `CHECK` a idade não poderá ser menor ou igual a 18
+```sql
+ALTER TABLE usuarios 
+ADD CONSTRAINT checar_idade CHECK(idade >= 18);
+```
+Caso a tabela ja tenha sido criada, seria inserido desse modo a restrição `CHECK`
+
+
+
