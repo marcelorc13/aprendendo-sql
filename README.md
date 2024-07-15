@@ -240,6 +240,41 @@ ALTER TABLE usuarios
 ADD CONSTRAINT checar_idade CHECK(idade >= 18);
 ```
 Caso a tabela ja tenha sido criada, seria inserido desse modo a restrição `CHECK`
+```sql
+ALTER TABLE usuarios 
+DROP CHECK checar_idade;
+```
+Deletando o `CHECK` 
 
-
+## DEFAULT
+```sql
+CREATE TABLE usuarios (
+  id INT,
+  username VARCHAR(30),
+  senha VARHCAR(20),
+  idade INT,
+  salario DECIMAL(6, 2) DEFAULT 0
+);
+```
+Usando `DEFAULT`, caso ao inserir os valores, nenhum 'salario' tenha sido inserido, ele será dado como `0`, e não `null`
+```sql
+ALTER TABLE usuarios 
+ALTER salario SET DEFAULT 0;
+```
+Caso a tabela ja tenha sido criada, seria inserido desse modo a restrição `DEFAULT`
+## PRIMARY KEY
+```sql
+CREATE TABLE usuarios (
+  id INT PRIMARY KEY,
+  username VARCHAR(30),
+  senha VARHCAR(20),
+);
+```
+Usando `PRIMARY KEY`, a coluna terá a propriedade `UNIQUE` e `NOT NULL`, podendo apenas haver uma PRIMARY KEY por tabela.
+```sql
+ALTER TABLE usuarios 
+ADD CONSTRAINT 
+PRIMARY KEY(id);
+```
+Caso a tabela ja tenha sido criada, seria inserido desse modo a restrição `PRIMARY KEY`
 
