@@ -195,7 +195,7 @@ Volta no ultimo 'Savepoint' criado
 
 ```sql
 CREATE TABLE usuarios (
-  id INT,
+  id_usuario INT,
   username VARCHAR(30) UNIQUE
 );
 ```
@@ -211,9 +211,9 @@ Caso a tabela ja tenha sido criada, seria inserido desse modo a restrição `UNI
 
 ```sql
 CREATE TABLE usuarios (
-  id INT,
+  id_usuario INT,
   username VARCHAR(30),
-  senha VARHCAR(20) NOT NULL
+  senha VARCHAR(20) NOT NULL
 );
 ```
 Usando `NOT NULL` o valor não poderá ser = `null`
@@ -227,9 +227,9 @@ Caso a tabela ja tenha sido criada, seria inserido desse modo a restrição `NOT
 
 ```sql
 CREATE TABLE usuarios (
-  id INT,
+  id_usuario INT,
   username VARCHAR(30),
-  senha VARHCAR(20),
+  senha VARCHAR(20),
   idade INT,
   CONSTRAINT checar_idade CHECK(idade >= 18)
 );
@@ -249,9 +249,9 @@ Deletando o `CHECK`
 ## DEFAULT
 ```sql
 CREATE TABLE usuarios (
-  id INT,
+  id_usuario INT,
   username VARCHAR(30),
-  senha VARHCAR(20),
+  senha VARCHAR(20),
   idade INT,
   salario DECIMAL(6, 2) DEFAULT 0
 );
@@ -265,9 +265,9 @@ Caso a tabela ja tenha sido criada, seria inserido desse modo a restrição `DEF
 ## PRIMARY KEY
 ```sql
 CREATE TABLE usuarios (
-  id INT PRIMARY KEY,
+  id_usuario INT PRIMARY KEY,
   username VARCHAR(30),
-  senha VARHCAR(20),
+  senha VARCHAR(20),
 );
 ```
 Usando `PRIMARY KEY`, a coluna terá a propriedade `UNIQUE` e `NOT NULL`, podendo apenas haver uma PRIMARY KEY por tabela.
@@ -278,3 +278,51 @@ PRIMARY KEY(id);
 ```
 Caso a tabela ja tenha sido criada, seria inserido desse modo a restrição `PRIMARY KEY`
 
+## AUTO_INCREMENT
+```sql
+CREATE TABLE usuarios (
+  id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(30),
+  senha VARCHAR(20),
+);
+```
+```sql
+INSERT INTO usuarios(username, password)
+VALUES('johnDoe', '1234abcd');
+```
+Adiciona automáticamente um numero a mais em cada 'id, sem precisar que o 'id' seja manualmente inserido
+```sql
+ALTER TABLE usuarios 
+AUTO_INCREMENT = 1000;
+```
+O `AUTO_INCREMENT` por default começa no número 1, editando assim fará com que ele comece a partir do número 1000 ou qualquer número de seu desejo
+
+## FOREIGN KEYS
+Criarão um Link entre tabelas diferente através de suas `PRIMARY KEY`'s
+```sql
+CREATE TABLE usuarios (
+  id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(30),
+  senha VARCHAR(20)
+);
+```
+
+```sql
+CREATE TABLE postagens (
+  id_postagem INT PRIMARY KEY AUTO_INCREMENT,
+  titulo VARCHAR(100),
+  descricao VARCHAR(300),
+  id_usuario INT,
+  FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario)
+);
+```
+Usando `FOREIGN KEY` a tabela de 'postagens' cria um link entre com a tabela de 'usuarios' <br>
+
+Caso voce queira deletar um usuario que esteja atribuido como uma `FOREIGN KEY` a outra tabela
+
+```sql
+DELETE FROM usuarios
+WHERE id_usuario = 1;
+```
+Será retornado esse erro:<br>
+"Error Code: 1451. Cannot delete or update a parent row: a foreign key constraint fails ('aprendendo_sql'.'postagens', CONSTRAINT 'postagens_ibfk_1' FOREIGN KEY ('id_usuario') REFERENCES 'usuarios' ('id_usuario'))-"
