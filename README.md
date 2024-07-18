@@ -325,4 +325,45 @@ DELETE FROM usuarios
 WHERE id_usuario = 1;
 ```
 Será retornado esse erro:<br>
-"Error Code: 1451. Cannot delete or update a parent row: a foreign key constraint fails ('aprendendo_sql'.'postagens', CONSTRAINT 'postagens_ibfk_1' FOREIGN KEY ('id_usuario') REFERENCES 'usuarios' ('id_usuario'))-"
+___Error Code: 1451. Cannot delete or update a parent row: a foreign key constraint fails ('aprendendo_sql'.'postagens', CONSTRAINT 'postagens_ibfk_1' FOREIGN KEY ('id_usuario') REFERENCES 'usuarios' ('id_usuario'))-___ <br>
+Demonstrando que não se pode deletar uma coluna em que sua `PRIMARY KEY` esta sendo usando como `FOREIGN KEY` em outra tabela
+
+# JOINS
+
+## INNER JOIN
+![Exemplo de INNER JOIN](imagens/inner-join.png)
+```sql
+SELECT *
+FROM postagens INNER JOIN usuarios
+ON postagens.id_usuario = usuarios.id_usuario;
+```
+![Resultado com INNER JOIN](imagens/inner-join-result.png)
+
+## LEFT JOIN
+![Exemplo de LEFT JOIN](imagens/left-join.png)
+```sql
+SELECT *
+FROM postagens LEFT JOIN usuarios
+ON postagens.id_usuario = usuarios.id_usuario;
+```
+![Resultado com LEFT JOIN](imagens/left-join-result.png)
+
+
+## RIGHT JOIN
+![Exemplo de RIGHT JOIN](imagens/right-join.png)
+```sql
+SELECT *
+FROM postagens RIGHT JOIN usuarios
+ON postagens.id_usuario = usuarios.id_usuario;
+```
+![Resultado com RIGHT JOIN](imagens/right-join-result.png)
+
+## Mostrar colunas específicas
+```sql
+SELECT id_postagem, titulo, descricao, username
+FROM postagens INNER JOIN usuarios
+ON postagens.id_usuario = usuarios.id_usuario;
+```
+Irá mostrar apenas as colunas especificadas após o `SELECT`
+![Resultado de colunas especificas](imagens/colunas-especificas.png)
+
